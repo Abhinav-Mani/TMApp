@@ -3,6 +3,7 @@ package com.maxpetroleum.tmapp.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
@@ -33,6 +34,7 @@ public class AddSO extends AppCompatActivity implements View.OnClickListener {
     FirebaseDatabase database;
     DatabaseReference myRef;
     private FirebaseAuth mAuth;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,14 +58,25 @@ public class AddSO extends AppCompatActivity implements View.OnClickListener {
         Password=findViewById(R.id.password);
         ConfirmPassword=findViewById(R.id.confirm_Password);
         Submit=findViewById(R.id.submit);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Please wait");
 
         database=FirebaseDatabase.getInstance();
         myRef=database.getReference();
+
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override
     public void onClick(View view) {
         if(valdate()){
+            progressDialog.show();
             myRef.child("UserData").child("Sales officer").child(SoId.getText().toString().trim()).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -71,6 +84,7 @@ public class AddSO extends AppCompatActivity implements View.OnClickListener {
                         crateUser();
                     } else {
                         Toast.makeText(AddSO.this,"UID already Exists",Toast.LENGTH_LONG).show();
+                        progressDialog.dismiss();
                     }
 
                 }
@@ -93,9 +107,12 @@ public class AddSO extends AppCompatActivity implements View.OnClickListener {
                         if (task.isSuccessful()) {
                             mAuth.signOut();
                             push();
+                            progressDialog.dismiss();
+
+                            Toast.makeText(AddSO.this, "SO Added Successfully", Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(AddSO.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddSO.this, "Authentication failed.",Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
                         }
                     }
                 });
@@ -110,12 +127,14 @@ public class AddSO extends AppCompatActivity implements View.OnClickListener {
         email=email.replace('.','d');
         email=email.toLowerCase().trim();
         myRef.child("User").child("Sales officer").child(email).setValue(SoId.getText().toString().trim());
+
+        finish();
     }
 
     private boolean valdate() {
         boolean valid=true;
         if(TextUtils.isEmpty(SoId.getText().toString().trim())){
-            Toast.makeText(this,"SoId Cannot be Empty",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"So Id Cannot be Empty",Toast.LENGTH_SHORT).show();
             valid=false;
         } else if(TextUtils.isEmpty(SoName.getText().toString().trim())){
             Toast.makeText(this,"Name Cannot be Empty",Toast.LENGTH_SHORT).show();

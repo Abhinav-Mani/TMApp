@@ -60,6 +60,23 @@ public class PoDetail extends AppCompatActivity implements View.OnClickListener 
         deliveryDate.setText(po_info.getDelivery_date());
         billDate.setText(po_info.getBill_date());
         paymentDate.setText(po_info.getPayment_date());
+
+        if(po_info.getPayment_date() == null){
+            status.setText("Pending\nPayment Date");
+            status.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+        }
+        else if(po_info.getBill_date() == null){
+            status.setText("Pending\nBill Date");
+            status.setTextColor(getResources().getColor(android.R.color.holo_red_light));
+        }
+        else if(po_info.getDelivery_date() == null){
+            status.setText("Pending\nDelivery Date");
+            status.setTextColor(getResources().getColor(android.R.color.holo_red_light));
+        }
+        else if(po_info.getDelivery_date() != null){
+            status.setText("Deal Closed");
+            status.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+        }
     }
 
     private void init() {
@@ -72,6 +89,13 @@ public class PoDetail extends AppCompatActivity implements View.OnClickListener 
         billDate=findViewById(R.id.bill_date);
         grades=findViewById(R.id.view_grades_but);
         paymentDate=findViewById(R.id.payment_date);
+
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void check() {

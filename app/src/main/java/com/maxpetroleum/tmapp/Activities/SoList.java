@@ -5,8 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,6 +29,7 @@ public class SoList extends AppCompatActivity implements SoListAdapter.ClickHand
     ArrayList<SalesOfficer> list;
     FirebaseDatabase database;
     DatabaseReference reference;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,7 @@ public class SoList extends AppCompatActivity implements SoListAdapter.ClickHand
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 list.clear();
+                progressDialog.dismiss();
                 for (DataSnapshot dataSnapshot1:dataSnapshot.getChildren()) {
                     SalesOfficer officer = dataSnapshot1.getValue(SalesOfficer.class);
                     officer.setUid(dataSnapshot1.getKey());
@@ -52,7 +57,7 @@ public class SoList extends AppCompatActivity implements SoListAdapter.ClickHand
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                progressDialog.dismiss();
             }
         });
     }
@@ -65,6 +70,18 @@ public class SoList extends AppCompatActivity implements SoListAdapter.ClickHand
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter=new SoListAdapter(list,SoList.this);
         recyclerView.setAdapter(adapter);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Please wait");
+        progressDialog.show();
+
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override

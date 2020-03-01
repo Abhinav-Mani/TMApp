@@ -24,7 +24,7 @@ import com.maxpetroleum.tmapp.R;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class SODetails extends AppCompatActivity implements View.OnClickListener {
+public class SODetails extends AppCompatActivity implements DealerListAdapter.ClickHandler,View.OnClickListener {
     TextView name,email,password,uid;
     SalesOfficer officer;
     Button addDealer;
@@ -99,13 +99,20 @@ public class SODetails extends AppCompatActivity implements View.OnClickListener
 
         recyclerView=findViewById(R.id.poList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter=new DealerListAdapter(list);
+        adapter=new DealerListAdapter(list,this);
         recyclerView.setAdapter(adapter);
 
         addDealer=findViewById(R.id.addDealer);
 
         database=FirebaseDatabase.getInstance();
         myRef=database.getReference("SO").child(officer.getUid());
+
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
 
@@ -116,5 +123,13 @@ public class SODetails extends AppCompatActivity implements View.OnClickListener
             intent.putExtra("Data",officer);
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void itemClicked(int position) {
+        Dealer dealer=list.get(position);
+        Intent intent=new Intent(SODetails.this,PoList.class);
+        intent.putExtra("Data",dealer);
+        startActivity(intent);
     }
 }
