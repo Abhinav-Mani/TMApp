@@ -63,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="15sp"
-            android:text="900ML10W30MA"/>
+            android:text="ENGINEOIL BPCL 900ML10W30MA"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
