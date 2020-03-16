@@ -10,7 +10,7 @@ import android.widget.Button;
 import com.maxpetroleum.tmapp.R;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    Button setRate,addSo,SOList,POList;
+    Button setRate,addSo,SOList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,14 +26,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setRate.setOnClickListener(this);
         addSo.setOnClickListener(this);
         SOList.setOnClickListener(this);
-        POList.setOnClickListener(this);
     }
 
     private void init() {
         setRate=findViewById(R.id.setRate);
         addSo=findViewById(R.id.addSo);
         SOList=findViewById(R.id.SOLIST);
-        POList=findViewById(R.id.POLIST);
     }
 
     @Override
@@ -47,10 +45,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if(view==SOList){
             Intent intent=new Intent(this,SoList.class);
             startActivity(intent);
-        } else if(view==POList){
-            Intent intent=new Intent(this, PoList.class);
-            startActivity(intent);
         }
-
     }
 }

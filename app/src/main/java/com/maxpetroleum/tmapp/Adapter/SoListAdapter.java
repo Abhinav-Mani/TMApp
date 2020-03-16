@@ -36,9 +36,9 @@ public class SoListAdapter extends RecyclerView.Adapter<SoListAdapter.MyViewHold
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
         SalesOfficer salesOfficer=list.get(position);
-        holder.name.setText(salesOfficer.getName());
-        holder.email.setText(salesOfficer.getEmail());
-        holder.uid.setText(salesOfficer.getUid());
+        holder.name.setText("Name: "+salesOfficer.getName());
+        holder.email.setText("Email: "+salesOfficer.getEmail());
+        holder.uid.setText("UID: "+salesOfficer.getUid());
         holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

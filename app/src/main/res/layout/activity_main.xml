@@ -37,22 +37,23 @@
         android:layout_below="@id/topbar"
         android:orientation="vertical"
         android:gravity="center">
-        <Button
-            android:id="@+id/POLIST"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:text="PO LIST" />
+
         <Button
             android:id="@+id/SOLIST"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:text="SO LIST" />
+            android:text="SO LIST"
+            android:textSize="20sp"
+            android:padding="25dp"/>
 
         <Button
             android:id="@+id/setRate"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:text="SET RATE" />
+            android:text="SET RATE"
+            android:textSize="20sp"
+            android:layout_marginTop="30dp"
+            android:padding="25dp"/>
     </LinearLayout>
 
 </RelativeLayout>

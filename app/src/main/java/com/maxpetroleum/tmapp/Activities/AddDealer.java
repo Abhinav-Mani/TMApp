@@ -3,6 +3,7 @@ package com.maxpetroleum.tmapp.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -30,6 +31,7 @@ public class AddDealer extends AppCompatActivity implements View.OnClickListener
     DatabaseReference myRef;
     private FirebaseAuth mAuth;
     SalesOfficer officer;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +66,15 @@ public class AddDealer extends AppCompatActivity implements View.OnClickListener
         Password=findViewById(R.id.password);
         ConfirmPassword=findViewById(R.id.confirm_Password);
         Submit=findViewById(R.id.submit);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Please wait");
+        progressDialog.setCancelable(false);
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         database=FirebaseDatabase.getInstance();
         myRef=database.getReference();
@@ -72,13 +83,16 @@ public class AddDealer extends AppCompatActivity implements View.OnClickListener
     @Override
     public void onClick(View view) {
         if(valdate()){
+            progressDialog.show();
             myRef.child("UserData").child("Dealer").child(DealerId.getText().toString().trim()).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    progressDialog.show();
                     if(dataSnapshot.getValue()==null){
                         crateUser();
                     } else {
                         Toast.makeText(AddDealer.this,"UID already Exists",Toast.LENGTH_LONG).show();
+                        progressDialog.dismiss();
                     }
 
                 }
@@ -100,6 +114,8 @@ public class AddDealer extends AppCompatActivity implements View.OnClickListener
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             mAuth.signOut();
+                            progressDialog.dismiss();
+                            Toast.makeText(AddDealer.this, "Dealer Added Succssfully", Toast.LENGTH_SHORT).show();
                             push();
                         } else {
                             Toast.makeText(AddDealer.this, "Authentication failed.",
@@ -113,12 +129,15 @@ public class AddDealer extends AppCompatActivity implements View.OnClickListener
         myRef.child("UserData").child("Dealer").child(DealerId.getText().toString().trim()).child("name").setValue(DealerName.getText().toString());
         myRef.child("UserData").child("Dealer").child(DealerId.getText().toString().trim()).child("email").setValue(Email.getText().toString());
         myRef.child("UserData").child("Dealer").child(DealerId.getText().toString().trim()).child("password").setValue(Password.getText().toString());
+        myRef.child("UserData").child("Dealer").child(DealerId.getText().toString().trim()).child("so id").setValue(officer.getUid());
         myRef.child("SO").child(officer.getUid()).child(DealerId.getText().toString().trim()).setValue(0);
         String email= Email.getText().toString();
         email=email.replace('@','a');
         email=email.replace('.','d');
         email=email.toLowerCase().trim();
         myRef.child("User").child("Dealer").child(email).setValue(DealerId.getText().toString().trim());
+
+        finish();
     }
 
     private boolean valdate() {
