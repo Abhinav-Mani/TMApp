@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.PoList"></activity>
+        <activity android:name=".Activities.UpdateBalance"></activity>
+        <activity android:name=".Activities.PoList" />
         <activity android:name=".Activities.AddDealer" />
         <activity android:name=".Activities.SODetails" />
         <activity android:name=".Activities.SoList" />

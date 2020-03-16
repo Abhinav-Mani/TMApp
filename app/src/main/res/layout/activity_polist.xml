@@ -59,6 +59,21 @@
             android:id="@+id/password"
             android:textSize="20sp"
             android:text="Password"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/currentBal"
+            android:textSize="20sp"
+            android:text="Current Balance"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Update Dealer Balance"
+            android:id="@+id/updateBalance"
+            android:layout_marginTop="20dp"/>
+
 
     </LinearLayout>
     <com.google.android.material.tabs.TabLayout

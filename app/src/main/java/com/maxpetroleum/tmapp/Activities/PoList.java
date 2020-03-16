@@ -2,17 +2,15 @@ package com.maxpetroleum.tmapp.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
@@ -39,6 +37,8 @@ public class PoList extends AppCompatActivity implements PoListAdapter.ClickHand
     public static HashMap<String,String> hashMap;
     ImageView back;
     ProgressDialog progressDialog;
+    Button updateBalance;
+    private TextView curBal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +74,8 @@ public class PoList extends AppCompatActivity implements PoListAdapter.ClickHand
         password=findViewById(R.id.password);
         email=findViewById(R.id.email);
         uid=findViewById(R.id.Uid);
+        curBal = findViewById(R.id.currentBal);
+        updateBalance = findViewById(R.id.updateBalance);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please wait");
@@ -82,6 +84,7 @@ public class PoList extends AppCompatActivity implements PoListAdapter.ClickHand
 
         hashMap=new HashMap<>();
         back.setOnClickListener(this);
+        updateBalance.setOnClickListener(this);
 
     }
 
@@ -100,8 +103,8 @@ public class PoList extends AppCompatActivity implements PoListAdapter.ClickHand
                     email.setText("Email: "+dataSnapshot.child("email").getValue().toString());
                     password.setText("Password: "+dataSnapshot.child("password").getValue().toString());
                     uid.setText("UID: "+dealer.getUid());
+                    curBal.setText("Current Balance: ₹"+dataSnapshot.child("balance").getValue().toString());
                 }
-
                 progressDialog.dismiss();
             }
 
@@ -123,5 +126,8 @@ public class PoList extends AppCompatActivity implements PoListAdapter.ClickHand
     @Override
     public void onClick(View v) {
         if(v == back) finish();
+        else if(v == updateBalance){
+            startActivity(new Intent(this,UpdateBalance.class));
+        }
     }
 }

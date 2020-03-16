@@ -43,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="15sp"
-        android:text="Grade1"/>
+        android:text="ENGINEOIL BPCL 800ML 5W30MA"/>
         <EditText
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="15sp"
-            android:text="Grade2"/>
+            android:text="ENGINEOIL BPCL 1000ML5W30MA"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="15sp"
-            android:text="Grade3"/>
+            android:text="ENGINEOIL BPCL 900ML10W30MA"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="15sp"
-            android:text="Grade4"/>
+            android:text="ENGINEOIL BPCL 1000ML10W30MA"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="15sp"
-            android:text="Grade5"/>
+            android:text="ENGINEOIL BPCL 800ML10W30MA"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -94,7 +94,7 @@
             android:layout_height="wrap_content"
             android:textSize="15sp"
             android:inputType="number"
-            android:text="Grade6"/>
+            android:text="ENGINEOIL BPCL 800ML10W30MB"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
