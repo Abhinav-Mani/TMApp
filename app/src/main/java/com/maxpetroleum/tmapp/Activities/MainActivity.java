@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.maxpetroleum.tmapp.R;
+import com.maxpetroleum.tmapp.Util.DeleteUser;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     Button setRate,addSo,SOList;
@@ -20,6 +21,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         init();
 
         setListers();
+
+
     }
 
     private void setListers() {

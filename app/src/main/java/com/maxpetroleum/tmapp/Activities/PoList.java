@@ -11,7 +11,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,6 +25,8 @@ import com.maxpetroleum.tmapp.Adapter.ViewPagerAddapter;
 import com.maxpetroleum.tmapp.Model.Dealer;
 import com.maxpetroleum.tmapp.Model.PO_Info;
 import com.maxpetroleum.tmapp.R;
+import com.maxpetroleum.tmapp.Util.DeleteUser;
+import com.maxpetroleum.tmapp.Util.EmailModifier;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,8 +41,10 @@ public class PoList extends AppCompatActivity implements PoListAdapter.ClickHand
     public static HashMap<String,String> hashMap;
     ImageView back;
     ProgressDialog progressDialog;
-    Button updateBalance;
+    Button updateBalance,deleteDealar;
     private TextView curBal;
+    String Email,Pass;
+    DatabaseReference root;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +55,13 @@ public class PoList extends AppCompatActivity implements PoListAdapter.ClickHand
 
         init();
 
+        addListeners();
+
         setValues();
+    }
+
+    private void addListeners() {
+        deleteDealar.setOnClickListener(this);
     }
 
     private void check() {
@@ -70,12 +82,14 @@ public class PoList extends AppCompatActivity implements PoListAdapter.ClickHand
         tabLayout.setupWithViewPager(viewPager);
         back = findViewById(R.id.back);
 
+
         name=findViewById(R.id.name);
         password=findViewById(R.id.password);
         email=findViewById(R.id.email);
         uid=findViewById(R.id.Uid);
         curBal = findViewById(R.id.currentBal);
         updateBalance = findViewById(R.id.updateBalance);
+        deleteDealar=findViewById(R.id.removeDealer);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please wait");
@@ -85,6 +99,8 @@ public class PoList extends AppCompatActivity implements PoListAdapter.ClickHand
         hashMap=new HashMap<>();
         back.setOnClickListener(this);
         updateBalance.setOnClickListener(this);
+
+        root=FirebaseDatabase.getInstance().getReference();
 
     }
 
@@ -101,9 +117,14 @@ public class PoList extends AppCompatActivity implements PoListAdapter.ClickHand
                 if(dataSnapshot.exists()){
                     name.setText("Dealer Name: "+dataSnapshot.child("name").getValue().toString());
                     email.setText("Email: "+dataSnapshot.child("email").getValue().toString());
+                    Email=dataSnapshot.child("email").getValue().toString();
                     password.setText("Password: "+dataSnapshot.child("password").getValue().toString());
+                    Pass=dataSnapshot.child("password").getValue().toString();
                     uid.setText("UID: "+dealer.getUid());
-                    curBal.setText("Current Balance: ₹"+dataSnapshot.child("balance").getValue().toString());
+                    if(dataSnapshot.child("balance").getValue()!=null)
+                        curBal.setText("Current Balance: ₹"+dataSnapshot.child("balance").getValue().toString());
+                    else
+                        curBal.setText("Current Balance: ₹"+0);
                 }
                 progressDialog.dismiss();
             }
@@ -128,6 +149,33 @@ public class PoList extends AppCompatActivity implements PoListAdapter.ClickHand
         if(v == back) finish();
         else if(v == updateBalance){
             startActivity(new Intent(this,UpdateBalance.class));
+        }else if(v==deleteDealar){
+            removeDealer();
         }
+    }
+
+    private void removeDealer() {
+        DeleteUser.DELETE_USER(Email,Pass);
+        Toast.makeText(this,"removing",Toast.LENGTH_LONG).show();
+        EmailModifier modifier=new EmailModifier(Email);
+        String newEmail=modifier.getEmail();
+        root.child("User").child("Dealer").child(newEmail).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                root.child("UserData").child("Dealer").child(dealer.getUid()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        root.child("SO").child(SODetails.officer.getUid()).child(dealer.getUid()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                finish();
+                            }
+                        });
+                        //SoList.removefromList(officer);
+
+                    }
+                });
+            }
+        });
     }
 }

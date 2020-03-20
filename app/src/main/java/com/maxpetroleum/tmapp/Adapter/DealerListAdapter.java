@@ -46,7 +46,7 @@ public class DealerListAdapter extends RecyclerView.Adapter<DealerListAdapter.My
         holder.pendingRequests.setText(dealer.getPendingRequests()+"");
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("UserData").child("Dealer")
                 .child(dealer.getUid());
-        ref.addValueEventListener(new ValueEventListener() {
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 holder.name.setText("Name: "+dataSnapshot.child("name").getValue().toString());

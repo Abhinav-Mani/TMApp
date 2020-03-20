@@ -73,6 +73,13 @@
             android:text="Update Dealer Balance"
             android:id="@+id/updateBalance"
             android:layout_marginTop="20dp"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Remove Dealer"
+            android:id="@+id/removeDealer"
+            android:layout_marginTop="20dp"/>
 
 
     </LinearLayout>

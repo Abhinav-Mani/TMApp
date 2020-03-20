@@ -67,6 +67,11 @@
             android:id="@+id/password"
             android:textSize="20sp"
             android:text="Password"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="REMOVE SO"
+            android:id="@+id/removeSo"/>
 
     </LinearLayout>
     <View

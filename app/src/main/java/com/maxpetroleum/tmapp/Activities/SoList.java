@@ -25,11 +25,23 @@ import java.util.ArrayList;
 public class SoList extends AppCompatActivity implements SoListAdapter.ClickHandler {
 
     RecyclerView recyclerView;
-    SoListAdapter adapter;
-    ArrayList<SalesOfficer> list;
+    private static SoListAdapter adapter;
+    private static ArrayList<SalesOfficer> list;
     FirebaseDatabase database;
     DatabaseReference reference;
     ProgressDialog progressDialog;
+
+    public static void removefromList(SalesOfficer salesOfficer){
+        String uid=salesOfficer.getUid();
+        for (int i=0;i<list.size();i++){
+            SalesOfficer so=list.get(i);
+            if(so.getUid().equalsIgnoreCase(uid)){
+                list.remove(i);
+                break;
+            }
+        }
+        adapter.notifyDataSetChanged();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
