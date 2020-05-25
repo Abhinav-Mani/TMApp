@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -111,7 +113,7 @@ public class PoList extends AppCompatActivity implements PoListAdapter.ClickHand
                 .child(dealer.getUid());
 
         ref.keepSynced(true);
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
@@ -150,7 +152,23 @@ public class PoList extends AppCompatActivity implements PoListAdapter.ClickHand
         else if(v == updateBalance){
             startActivity(new Intent(this,UpdateBalance.class));
         }else if(v==deleteDealar){
-            removeDealer();
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setTitle("Alert");
+            dialog.setMessage("Are you sure to remove this user?");
+            dialog.setPositiveButton(this.getResources().getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    removeDealer();
+                }
+            });
+            dialog.setNegativeButton(this.getResources().getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+
+            dialog.show();
         }
     }
 

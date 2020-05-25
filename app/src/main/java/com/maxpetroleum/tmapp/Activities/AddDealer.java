@@ -25,7 +25,7 @@ import com.maxpetroleum.tmapp.Model.SalesOfficer;
 import com.maxpetroleum.tmapp.R;
 
 public class AddDealer extends AppCompatActivity implements View.OnClickListener {
-    EditText DealerId,DealerName,Email,Password,ConfirmPassword;
+    EditText DealerId,DealerName,Email,Password,ConfirmPassword,Balance;
     Button Submit;
     FirebaseDatabase database;
     DatabaseReference myRef;
@@ -65,6 +65,7 @@ public class AddDealer extends AppCompatActivity implements View.OnClickListener
         Email=findViewById(R.id.email);
         Password=findViewById(R.id.password);
         ConfirmPassword=findViewById(R.id.confirm_Password);
+        Balance = findViewById(R.id.balance);
         Submit=findViewById(R.id.submit);
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please wait");
@@ -129,6 +130,7 @@ public class AddDealer extends AppCompatActivity implements View.OnClickListener
         myRef.child("UserData").child("Dealer").child(DealerId.getText().toString().trim()).child("name").setValue(DealerName.getText().toString());
         myRef.child("UserData").child("Dealer").child(DealerId.getText().toString().trim()).child("email").setValue(Email.getText().toString());
         myRef.child("UserData").child("Dealer").child(DealerId.getText().toString().trim()).child("password").setValue(Password.getText().toString());
+        myRef.child("UserData").child("Dealer").child(DealerId.getText().toString().trim()).child("balance").setValue(Balance.getText().toString());
         myRef.child("UserData").child("Dealer").child(DealerId.getText().toString().trim()).child("so id").setValue(officer.getUid());
         myRef.child("SO").child(officer.getUid()).child(DealerId.getText().toString().trim()).setValue(0);
         String email= Email.getText().toString();
@@ -143,19 +145,22 @@ public class AddDealer extends AppCompatActivity implements View.OnClickListener
     private boolean valdate() {
         boolean valid=true;
         if(TextUtils.isEmpty(DealerId.getText().toString().trim())){
-            Toast.makeText(this,"DealerId Cannot be Empty",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"DealerId cannot be Empty",Toast.LENGTH_SHORT).show();
             valid=false;
-        } else if(TextUtils.isEmpty(DealerName.getText().toString().trim())){
-            Toast.makeText(this,"Name Cannot be Empty",Toast.LENGTH_SHORT).show();
+        }  else if(TextUtils.isEmpty(DealerName.getText().toString().trim())){
+            Toast.makeText(this,"Name cannot be Empty",Toast.LENGTH_SHORT).show();
+            valid=false;
+        }  else if(TextUtils.isEmpty(Balance.getText().toString().trim())){
+            Toast.makeText(this,"Initial Balance cannot be Empty",Toast.LENGTH_SHORT).show();
             valid=false;
         }  else if(TextUtils.isEmpty(Email.getText().toString().trim())){
-            Toast.makeText(this,"Email Cannot be Empty",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Email cannot be Empty",Toast.LENGTH_SHORT).show();
             valid=false;
         }  else if(TextUtils.isEmpty(Password.getText().toString().trim())){
-            Toast.makeText(this,"Fields Cannot be Empty",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Fields cannot be Empty",Toast.LENGTH_SHORT).show();
             valid=false;
         }  else if(TextUtils.isEmpty(ConfirmPassword.getText().toString().trim())){
-            Toast.makeText(this,"Field Cannot be Empty",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Field cannot be Empty",Toast.LENGTH_SHORT).show();
             valid=false;
         }  else if(!Password.getText().toString().equals(ConfirmPassword.getText().toString())){
             Toast.makeText(this,"Password and Confirm Password",Toast.LENGTH_SHORT).show();

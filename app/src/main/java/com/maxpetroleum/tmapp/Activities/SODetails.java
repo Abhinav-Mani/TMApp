@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -130,7 +132,23 @@ public class SODetails extends AppCompatActivity implements DealerListAdapter.Cl
             intent.putExtra("Data",officer);
             startActivity(intent);
         } else if (view==removeSo){
-            removeSalesOfficer();
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setTitle("Alert");
+            dialog.setMessage("Are you sure to remove this user?");
+            dialog.setPositiveButton(this.getResources().getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    removeSalesOfficer();
+                }
+            });
+            dialog.setNegativeButton(this.getResources().getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+
+            dialog.show();
         }
     }
 

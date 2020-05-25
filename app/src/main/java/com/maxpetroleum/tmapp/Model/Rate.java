@@ -2,12 +2,12 @@ package com.maxpetroleum.tmapp.Model;
 
 public class Rate {
     String name;
-    Long rate;
+    Double rate;
 
     public Rate() {
     }
 
-    public Rate(String name, Long rate) {
+    public Rate(String name, Double rate) {
         this.name = name;
         this.rate = rate;
     }
@@ -20,11 +20,11 @@ public class Rate {
         this.name = name;
     }
 
-    public Long getRate() {
+    public Double getRate() {
         return rate;
     }
 
-    public void setRate(Long rate) {
+    public void setRate(Double rate) {
         this.rate = rate;
     }
 }

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -69,7 +70,7 @@ public class UpdateBalance extends AppCompatActivity implements View.OnClickList
             }else{
                 AlertDialog.Builder dialog = new AlertDialog.Builder(this);
                 dialog.setTitle("Alert");
-                dialog.setMessage("Are you sure");
+                dialog.setMessage("Are you sure to update the balance");
                 dialog.setPositiveButton(getResources().getString(android.R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -77,6 +78,8 @@ public class UpdateBalance extends AppCompatActivity implements View.OnClickList
                         ref = ref.child("UserData").child("Dealer").child(PoList.dealer.getUid());
                         ref.child("balance").setValue(et_bal.getText().toString());
                         et_bal.setText("");
+                        Toast.makeText(UpdateBalance.this, "Balance Updated", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                 });
                 dialog.show();
